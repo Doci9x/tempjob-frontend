@@ -1,15 +1,17 @@
+<!-- App.vue oder eine andere Hauptkomponente -->
 <template>
-    <div class="tempjob">
-        <h1>Das sind unsere Tempjobs!</h1>
-    </div>
+  <div class="app">
+    <TempjobList />
+  </div>
 </template>
 
-<script>
-export default {
-    name: "TempjobView"
-}
+<script setup lang="ts">
+import TempjobList from '@/components/TempjobList.vue'
 </script>
 
 <style scoped>
-
+.app {
+  font-family: 'Arial', sans-serif;
+}
 </style>
+
