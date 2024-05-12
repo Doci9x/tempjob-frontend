@@ -1,21 +1,3 @@
-<!-- TempjobList.vue -->
-<template>
-  <div class="restaurant-job-list">
-    <h1>Verfügbare Restaurantjobs!</h1>
-    <ul>
-      <li v-for="job in restaurantJobs" :key="job.id">
-        {{ job.name }} - {{ job.description }}
-        <button @click="deleteJob(job.id)">Löschen</button>
-      </li>
-    </ul>
-    <div class="add-job-form">
-      <input type="text" v-model="newJobName" placeholder="Restaurantname" />
-      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" />
-      <button @click="addJob">Hinzufügen</button>
-    </div>
-  </div>
-</template>
-
 <script>
 export default {
   name: "RestaurantJobList",
@@ -30,12 +12,13 @@ export default {
       ],
       newJobName: '',
       newJobDescription: '',
-      nextJobId: 6
+      nextJobId: 6,
+      feedbackMessage: ''
     };
   },
   methods: {
     addJob() {
-      if (this.newJobName.trim() !== '' && this.newJobDescription.trim() !== '') {
+      if (this.newJobName.trim().length > 0 && this.newJobDescription.trim().length > 0) {
         this.restaurantJobs.push({
           id: this.nextJobId++,
           name: this.newJobName,
@@ -43,14 +26,38 @@ export default {
         });
         this.newJobName = '';
         this.newJobDescription = '';
+        this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
+      } else {
+        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
       }
     },
     deleteJob(jobId) {
       this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
+      this.feedbackMessage = 'Job erfolgreich gelöscht!';
     }
   }
 }
 </script>
+
+<template>
+  <div class="restaurant-job-list">
+    <h1>Verfügbare Restaurantjobs!</h1>
+    <ul>
+      <li v-for="job in restaurantJobs" :key="job.id">
+        <button @click="deleteJob(job.id)" class="delete-button">Löschen</button>
+        <span>{{ job.name }} - {{ job.description }}</span>
+      </li>
+    </ul>
+    <div class="add-job-form">
+      <input type="text" v-model="newJobName" placeholder="Restaurantname" />
+      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" />
+      <button @click="addJob">Hinzufügen</button>
+    </div>
+    <!-- Feedback Nachricht -->
+    <div v-if="feedbackMessage" class="feedback">{{ feedbackMessage }}</div>
+  </div>
+
+</template>
 
 <style scoped>
 
@@ -66,10 +73,6 @@ export default {
   margin: 10px 0;
   font-size: 17px;
 }
-button {
-  margin-left: 18px;
-  cursor: pointer;
-}
 .add-job-form {
   margin-top: 20px;
 }
@@ -78,6 +81,29 @@ input[type="text"] {
   height: 40px;  /* Höhe des Eingabefeldes */
   padding: 8px;  /* Innenabstand zur Textverbesserung */
   font-size: 16px; /* Schriftgröße */
+}
+button {
+  margin-right: 18px;
+  margin-left: 10px;
+  cursor: pointer;
+  background-color: #4CAF50; /* Grüne Farbe */
+  border: none;
+  color: white;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+.feedback {
+  color: #d32f2f; /* Rot für Fehlermeldungen */
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 10px;
 }
 
 </style>

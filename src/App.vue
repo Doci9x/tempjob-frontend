@@ -9,6 +9,8 @@ import HelloWorld from './components/HelloWorld.vue'
 
     <div class="wrapper">
       <HelloWorld msg="Willkommen auf der TempJob Seite!" />
+      Duc Phan 590057 | Béla von Wangenheim 589289
+
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
