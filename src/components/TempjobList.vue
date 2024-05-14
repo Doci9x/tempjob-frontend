@@ -41,7 +41,7 @@ export default {
 
 <template>
   <div class="restaurant-job-list">
-    <h1>Verfügbare Restaurantjobs!</h1>
+    <h1>Verfügbare Job-Angebote!</h1>
     <ul>
       <li v-for="job in restaurantJobs" :key="job.id">
         <button @click="deleteJob(job.id)" class="delete-button">Löschen</button>
@@ -53,7 +53,7 @@ export default {
       <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" />
       <button @click="addJob">Hinzufügen</button>
     </div>
-    <!-- Feedback Nachricht -->
+
     <div v-if="feedbackMessage" class="feedback">{{ feedbackMessage }}</div>
   </div>
 
@@ -86,7 +86,7 @@ button {
   margin-right: 18px;
   margin-left: 10px;
   cursor: pointer;
-  background-color: #4CAF50; /* Grüne Farbe */
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 10px 10px;
@@ -98,7 +98,7 @@ button {
   transition: background-color 0.3s ease;
 }
 .feedback {
-  color: #d32f2f; /* Rot für Fehlermeldungen */
+  color: #d32f2f;
   background-color: #f8d7da;
   border-color: #f5c6cb;
   padding: 10px;
