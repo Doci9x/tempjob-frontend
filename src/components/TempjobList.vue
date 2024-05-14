@@ -1,109 +1,36 @@
+<template>
+    <ul>
+        <li v-for="job in jobs" :key="job.id">
+            <span>{{ job.name }} - {{ job.description }}</span>
+            <button @click="deleteJob(job.id)" class="delete-button">Löschen</button>
+        </li>
+    </ul>
+</template>
+
 <script>
 export default {
-  name: "RestaurantJobList",
-  data() {
-    return {
-      restaurantJobs: [
-        { id: 1, name: 'Bella Italia', description: 'Sucht erfahrene Kellner und Barkeeper.' },
-        { id: 2, name: 'Veggie Paradise', description: 'Benötigt Koch mit Erfahrung in veganer Küche.' },
-        { id: 3, name: 'Steakhouse Wild West', description: 'Sucht einen Chefkoch und Küchenhilfen.' },
-        { id: 4, name: 'Café Central', description: 'Benötigt freundliches Personal für den Service.' },
-        { id: 5, name: 'Sushi Circle', description: 'Sucht Sushi-Köche und Servicekräfte mit Erfahrung.' }
-      ],
-      newJobName: '',
-      newJobDescription: '',
-      nextJobId: 6,
-      feedbackMessage: ''
-    };
-  },
-  methods: {
-    addJob() {
-      if (this.newJobName.trim().length > 0 && this.newJobDescription.trim().length > 0) {
-        this.restaurantJobs.push({
-          id: this.nextJobId++,
-          name: this.newJobName,
-          description: this.newJobDescription
-        });
-        this.newJobName = '';
-        this.newJobDescription = '';
-        this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-      } else {
-        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
-      }
+    name: 'JobList',
+    props: {
+        jobs: Array
     },
-    deleteJob(jobId) {
-      this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
-      this.feedbackMessage = 'Job erfolgreich gelöscht!';
+    methods: {
+        deleteJob(jobId) {
+            this.$emit('delete-job', jobId);
+        }
     }
-  }
 }
 </script>
 
-<template>
-  <div class="restaurant-job-list">
-    <h1>Verfügbare Restaurantjobs!</h1>
-    <ul>
-      <li v-for="job in restaurantJobs" :key="job.id">
-        <button @click="deleteJob(job.id)" class="delete-button">Löschen</button>
-        <span>{{ job.name }} - {{ job.description }}</span>
-      </li>
-    </ul>
-    <div class="add-job-form">
-      <input type="text" v-model="newJobName" placeholder="Restaurantname" />
-      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" />
-      <button @click="addJob">Hinzufügen</button>
-    </div>
-    <!-- Feedback Nachricht -->
-    <div v-if="feedbackMessage" class="feedback">{{ feedbackMessage }}</div>
-  </div>
-
-</template>
-
 <style scoped>
-
-.restaurant-job-list h1 {
-  color: #7ce376;
-  font-size: 40px;
+ul {
+    list-style-type: none;
+    padding: 0;
 }
-.restaurant-job-list ul {
-  list-style-type: none;
-  padding: 0;
+li {
+    margin: 10px 0;
+    font-size: 17px;
 }
-.restaurant-job-list li {
-  margin: 10px 0;
-  font-size: 17px;
+.delete-button {
+    margin-left: 10px;
 }
-.add-job-form {
-  margin-top: 20px;
-}
-input[type="text"] {
-  width: 200px;  /* Breite des Eingabefeldes */
-  height: 40px;  /* Höhe des Eingabefeldes */
-  padding: 8px;  /* Innenabstand zur Textverbesserung */
-  font-size: 16px; /* Schriftgröße */
-}
-button {
-  margin-right: 18px;
-  margin-left: 10px;
-  cursor: pointer;
-  background-color: #4CAF50; /* Grüne Farbe */
-  border: none;
-  color: white;
-  padding: 10px 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
-}
-.feedback {
-  color: #d32f2f; /* Rot für Fehlermeldungen */
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  padding: 10px;
-  border-radius: 5px;
-  margin-top: 10px;
-}
-
 </style>
