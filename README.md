@@ -1,6 +1,6 @@
 // alerts 
 // Navbar
-// 
+// Unterkomponente (Navbar, Liste, (Filter Funktion), Hinzufügen/Entfernen, FeedbackMessage)
 
 # tempjob-frontend
 
