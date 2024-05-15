@@ -1,23 +1,40 @@
 <template>
   <div class="restaurant-job-list">
     <h1>Verfügbare Job-Angebote!</h1>
-    <ul>
-      <li v-for="job in restaurantJobs" :key="job.id">
-        <button @click="deleteJob(job.id)" class="delete-button btn-delete">Löschen</button>
-        <span>{{ job.name }} - {{ job.description }}</span>
-      </li>
-    </ul>
-    <div class="add-job-form">
-      <input type="text" v-model="newJobName" placeholder="Restaurantname" />
-      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" />
-      <button @click="addJob" class="btn-add">Hinzufügen</button>
+    <input type="text" v-model="searchText" placeholder="Suche nach Jobs..." class="form-control mb-3">
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Restaurant</th>
+        <th>Beschreibung</th>
+        <th>Email</th>
+        <th>Aktionen</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr v-for="job in filteredJobs" :key="job.id">
+        <td>{{ job.name }}</td>
+        <td>{{ job.description }}</td>
+        <td>{{ job.email }}</td>
+        <td>
+          <button @click="deleteJob(job.id)" class="btn btn-danger">Löschen</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <div class="add-job-form d-flex">
+      <input type="text" v-model="newJobName" placeholder="Restaurantname" class="form-control mb-2"/>
+      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" class="form-control mb-2"/>
+      <input type="text" v-model="newJobEmail" placeholder="Email" class="form-control mb-2"/>
+      <button @click="addJob" class="btn-add btn btn-success">Hinzufügen</button>
     </div>
     <FeedbackMessage :message="feedbackMessage" />
   </div>
 </template>
 
-
 <script>
+import FeedbackMessage from '@/components/FeedbackMessage.vue';
+
 export default {
   name: "RestaurantJobList",
   components: {
@@ -26,28 +43,66 @@ export default {
   data() {
     return {
       restaurantJobs: [
-        { id: 1, name: 'Bella Italia', description: 'Sucht erfahrene Kellner und Barkeeper.' },
-        { id: 2, name: 'Veggie Paradise', description: 'Benötigt Koch mit Erfahrung in veganer Küche.' },
-        { id: 3, name: 'Steakhouse Wild West', description: 'Sucht einen Chefkoch und Küchenhilfen.' },
-        { id: 4, name: 'Café Central', description: 'Benötigt freundliches Personal für den Service.' },
-        { id: 5, name: 'Sushi Circle', description: 'Sucht Sushi-Köche und Servicekräfte mit Erfahrung.' }
+        {
+          id: 1,
+          name: 'Bella Italia',
+          description: 'Sucht erfahrene Kellner und Barkeeper.',
+          email: 'contact@bellaitalia.com'
+        },
+        {
+          id: 2,
+          name: 'Veggie Paradise',
+          description: 'Benötigt Koch mit Erfahrung in veganer Küche.',
+          email: 'info@veggieparadise.com'
+        },
+        {
+          id: 3,
+          name: 'Steakhouse Wild West',
+          description: 'Sucht einen Chefkoch und Küchenhilfen.',
+          email: 'chef@steakhouseww.com'
+        },
+        {
+          id: 4,
+          name: 'Café Central',
+          description: 'Benötigt freundliches Personal für den Service.',
+          email: 'service@cafecentral.com'
+        },
+        {
+          id: 5,
+          name: 'Sushi Circle',
+          description: 'Sucht Sushi-Köche und Servicekräfte mit Erfahrung.',
+          email: 'jobs@sushicircle.com'
+        }
       ],
       newJobName: '',
       newJobDescription: '',
+      newJobEmail: '',
       nextJobId: 6,
-      feedbackMessage: ''
+      feedbackMessage: '',
+      searchText: ''
     };
+  },
+  computed: {
+    filteredJobs() {
+      return this.restaurantJobs.filter(job =>
+        job.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        job.description.toLowerCase().includes(this.searchText.toLowerCase()) ||
+        job.email.toLowerCase().includes(this.searchText.toLowerCase())
+      );
+    }
   },
   methods: {
     addJob() {
-      if (this.newJobName.trim().length > 0 && this.newJobDescription.trim().length > 0) {
+      if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
         this.restaurantJobs.push({
           id: this.nextJobId++,
           name: this.newJobName,
-          description: this.newJobDescription
+          description: this.newJobDescription,
+          email: this.newJobEmail
         });
         this.newJobName = '';
         this.newJobDescription = '';
+        this.newJobEmail = '';
         this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
       } else {
         this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
@@ -59,8 +114,6 @@ export default {
     }
   }
 }
-import FeedbackMessage from '@/components/FeedbackMessage.vue';
-
 </script>
 
 <style scoped>
@@ -68,25 +121,17 @@ import FeedbackMessage from '@/components/FeedbackMessage.vue';
   color: #071234;
   font-size: 40px;
 }
-
-.restaurant-job-list ul {
-  list-style-type: none;
-  padding: 0;
+.table {
+  width: 100%;
+  margin-bottom: 20px;
 }
+.table th{
+  font-weight: bold; /* Macht die Schrift in den Tabellenüberschriften fett */
 
-.restaurant-job-list li {
-  margin: 10px 0;
-  font-size: 17px;
 }
-
-.add-job-form {
-  margin-top: 20px;
-}
-
 input[type="text"] {
-  padding: 8px;
+  margin-bottom: 10px;
 }
-
 .btn-delete {
   margin-right: 15px;
   background-color: #800013;
@@ -102,7 +147,7 @@ input[type="text"] {
 }
 .btn-add {
   margin-left: 15px;
-  background-color: #4CAF50; /* Grüne Farbe für Hinzufügen */
+  background-color: #4CAF50;
   border: none;
   color: white;
   padding: 10px 10px;
@@ -113,5 +158,5 @@ input[type="text"] {
   border-radius: 8px;
   transition: background-color 0.3s ease;
 }
-
 </style>
+
