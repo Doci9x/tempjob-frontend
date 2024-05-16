@@ -150,6 +150,7 @@ export default {
 .restaurant-job-list h1 {
   color: #071234;
   font-size: 40px;
+  padding-top: 80px; /* Adjust this value based on your navbar's actual height */
 }
 .table {
   width: 100%;

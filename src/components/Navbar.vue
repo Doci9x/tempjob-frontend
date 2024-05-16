@@ -25,17 +25,12 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.navbar {
-  background-color: #343a40; /* Dunkelgrau, passend zur Klasse bg-dark */
-  border-bottom: 1px solid #dee2e6; /* Helle untere Grenze */
-}
-
 .nav-link {
   margin-right: 15px;
   color: #f8f9fa; /* Hellere Schrift für besseren Kontrast */
 }
 
 .nav-link:hover {
-  color: #adb5bd; /* Grau für Hover-Effekte */
+  color: #ef0b0b; /* Grau für Hover-Effekte */
 }
 </style>
