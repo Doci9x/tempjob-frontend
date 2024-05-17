@@ -1,8 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import TempjobView from "@/views/TempjobView.vue";
-import HomeView from "@/views/HomeView.vue";
-import AboutView from "@/views/AboutView.vue";
+import TempjobView from '@/views/TempjobView.vue';
+import RegisterView from '@/views/RegisterView.vue';
+import LoginView from '@/views/LoginView.vue';
+import AdminView from '@/views/AdminDashView.vue';
 
 
 const router = createRouter({
@@ -13,23 +14,28 @@ const router = createRouter({
     // Start-Seite beim Öffnen der Website
     {
       path: '/',
-      redirect: '/home' // Füge eine Umleitung von '/' zu '/home' hinzu
+      redirect: '/login'
     },
 
     {
-      path: '/home',
-      name: 'home',
-      component: HomeView
+      path: '/login',
+      name: 'Login',
+      component: LoginView
     },
     {
-      path: '/about',
-      name: 'about',
-      component: AboutView
+      path: '/register',
+      name: 'Register',
+      component: RegisterView
     },
     {
       path: '/tempjob',
       name: 'tempjob',
       component: TempjobView
+    },
+    {
+      path: '/admin',
+      name: 'Admin',
+      component: AdminView
     },
   ]
 })
