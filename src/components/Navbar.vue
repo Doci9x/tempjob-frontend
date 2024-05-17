@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">TempJob-Connect</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,9 +7,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link to="/home" class="nav-link">Home</router-link>
-          <router-link to="/about" class="nav-link">About</router-link>
-          <router-link to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
+          <router-link v-if="!isAuthenticated" to="/login" class="nav-link">Login</router-link>
+          <router-link v-if="!isAuthenticated" to="/register" class="nav-link">Register</router-link>
+          <router-link v-if="isAuthenticated" to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
+          <router-link v-if="isAdmin" to="/admin" class="nav-link">Admin-Dashboard</router-link>
+        </div>
+        <div class="navbar-nav ms-auto">
+          <a v-if="isAuthenticated" @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
     </div>
@@ -17,20 +21,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
+import { mapGetters, mapActions } from 'vuex';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
-  name: 'Navbar'
-})
+  name: 'Navbar',
+  computed: {
+    ...mapGetters(['isAuthenticated', 'isAdmin']),
+  },
+  methods: {
+    ...mapActions(['logout']),
+    handleLogout() {
+      this.logout();
+      this.$router.push('/login');
+    },
+  },
+  setup() {
+    const router = useRouter();
+    return {
+      router,
+    };
+  },
+});
 </script>
 
 <style scoped>
 .nav-link {
   margin-right: 15px;
-  color: #f8f9fa; /* Hellere Schrift für besseren Kontrast */
+  color: #f8f9fa;
 }
 
 .nav-link:hover {
-  color: #ef0b0b; /* Grau für Hover-Effekte */
+  color: #ef0b0b;
 }
 </style>
