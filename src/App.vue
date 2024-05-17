@@ -1,10 +1,14 @@
 <template>
   <div>
     <Navbar />
-    <RouterView />
+    <router-view />
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Navbar from '@/components/Navbar.vue';
 </script>
+
+<style>
+@import 'bootstrap/dist/css/bootstrap.css';
+</style>
