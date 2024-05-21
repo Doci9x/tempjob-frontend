@@ -1,22 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
-import TempjobView from '@/views/TempjobView.vue';
-import RegisterView from '@/views/RegisterView.vue';
-import LoginView from '@/views/LoginView.vue';
-import AdminView from '@/views/AdminDashView.vue';
-
+import TempjobView from '@/pages/TempjobView.vue';
+import RegisterView from '@/pages/RegisterView.vue';
+import LoginView from '@/pages/LoginView.vue';
+import AdminView from '@/pages/AdminDashView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  linkActiveClass: "active",
+  linkActiveClass: 'active',
   routes: [
-
-    // Start-Seite beim Öffnen der Website
     {
       path: '/',
       redirect: '/login'
     },
-
     {
       path: '/login',
       name: 'Login',
@@ -29,15 +25,15 @@ const router = createRouter({
     },
     {
       path: '/tempjob',
-      name: 'tempjob',
+      name: 'Tempjob',
       component: TempjobView
     },
     {
       path: '/admin',
       name: 'Admin',
       component: AdminView
-    },
+    }
   ]
-})
+});
 
-export default router
+export default router;

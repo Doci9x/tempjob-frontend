@@ -17,13 +17,13 @@
         <td>{{ job.description }}</td>
         <td>{{ job.email }}</td>
         <td>
-          <button v-if="isAdmin" @click="deleteJob(job.id)" class="btn btn-danger">Löschen</button>
-          <button v-else class="btn btn-primary">Details</button>
+          <button @click="deleteJob(job.id)" class="btn btn-danger action-button">Löschen</button>
+          <button class="btn btn-primary action-button">Details</button>
         </td>
       </tr>
       </tbody>
     </table>
-    <div v-if="isAdmin" class="add-job-form d-flex">
+    <div class="add-job-form d-flex">
       <input type="text" v-model="newJobName" placeholder="Restaurantname" class="form-control mb-2"/>
       <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" class="form-control mb-2"/>
       <input type="text" v-model="newJobEmail" placeholder="Email" class="form-control mb-2"/>
@@ -33,9 +33,9 @@
   </div>
 </template>
 
+
 <script>
 import FeedbackMessage from '@/components/FeedbackMessage.vue';
-import { mapGetters } from 'vuex';
 import { jobs } from '@/data/jobs'; // Import der ausgelagerten Job-Daten
 
 export default {
@@ -55,7 +55,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['isAdmin']),
     filteredJobs() {
       return this.restaurantJobs.filter(job =>
         job.name.toLowerCase().includes(this.searchText.toLowerCase()) ||
@@ -66,28 +65,24 @@ export default {
   },
   methods: {
     addJob() {
-      if (this.isAdmin) {
-        if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
-          this.restaurantJobs.push({
-            id: this.nextJobId++,
-            name: this.newJobName,
-            description: this.newJobDescription,
-            email: this.newJobEmail
-          });
-          this.newJobName = '';
-          this.newJobDescription = '';
-          this.newJobEmail = '';
-          this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-        } else {
-          this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
-        }
+      if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
+        this.restaurantJobs.push({
+          id: this.nextJobId++,
+          name: this.newJobName,
+          description: this.newJobDescription,
+          email: this.newJobEmail
+        });
+        this.newJobName = '';
+        this.newJobDescription = '';
+        this.newJobEmail = '';
+        this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
+      } else {
+        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
       }
     },
     deleteJob(jobId) {
-      if (this.isAdmin) {
-        this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
-        this.feedbackMessage = 'Job erfolgreich gelöscht!';
-      }
+      this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
+      this.feedbackMessage = 'Job erfolgreich gelöscht!';
     }
   }
 }
@@ -117,4 +112,10 @@ input[type="text"] {
   margin-left: 10px;
   color: white;
 }
+
+/* Neue CSS-Klasse für Abstand zwischen den Buttons */
+.action-button {
+  margin-right: 10px; /* Definiert den Abstand zwischen den Buttons */
+}
 </style>
+

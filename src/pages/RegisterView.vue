@@ -18,7 +18,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -27,17 +26,15 @@ export default defineComponent({
     const username = ref('');
     const password = ref('');
     const error = ref('');
-    const store = useStore();
     const router = useRouter();
 
     const handleRegister = () => {
-      //only the UI part, actual user creation logic is not implemented
       if (username.value && password.value) {
         error.value = '';
         // Redirect to login after "registration"
         router.push('/login');
       } else {
-        error.value = 'Bitte gebe einen Username und Password an!';
+        error.value = 'Bitte geben Sie einen Username und ein Passwort an!';
       }
     };
 

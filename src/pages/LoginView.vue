@@ -11,7 +11,6 @@
         <input type="password" class="form-control" id="password" v-model="password" required>
       </div>
       <button type="submit" class="btn btn-primary">Login</button>
-      <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
     </form>
 
     <!-- Toast -->
@@ -34,7 +33,6 @@ username: 'admin', password: '123'
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
@@ -42,25 +40,17 @@ export default defineComponent({
   setup() {
     const username = ref('');
     const password = ref('');
-    const error = ref('');
     const showToast = ref(true); // Initialize the toast to be visible
 
-    const store = useStore();
     const router = useRouter();
 
-    const handleLogin = async () => {
-      try {
-        await store.dispatch('login', { username: username.value, password: password.value });
-        router.push('/tempjob');
-      } catch (err) {
-        error.value = 'Ungültiger Username oder Password';
-      }
+    const handleLogin = () => {
+      router.push('/tempjob');
     };
 
     return {
       username,
       password,
-      error,
       showToast,
       handleLogin,
     };

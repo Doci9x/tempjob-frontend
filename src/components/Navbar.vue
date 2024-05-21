@@ -7,13 +7,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link v-if="!isAuthenticated" to="/login" class="nav-link">Login</router-link>
-          <router-link v-if="!isAuthenticated" to="/register" class="nav-link">Register</router-link>
-          <router-link v-if="isAuthenticated" to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
-          <router-link v-if="isAdmin" to="/admin" class="nav-link">Admin-Dashboard</router-link>
+          <router-link to="/login" class="nav-link">Login</router-link>
+          <router-link to="/register" class="nav-link">Register</router-link>
+          <router-link to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
+          <router-link to="/admin" class="nav-link">Admin-Dashboard</router-link>
         </div>
         <div class="navbar-nav ms-auto">
-          <a v-if="isAuthenticated" @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
+          <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
     </div>
@@ -22,25 +22,19 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { mapGetters, mapActions } from 'vuex';
 import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'Navbar',
-  computed: {
-    ...mapGetters(['isAuthenticated', 'isAdmin']),
-  },
-  methods: {
-    ...mapActions(['logout']),
-    handleLogout() {
-      this.logout();
-      this.$router.push('/login');
-    },
-  },
   setup() {
     const router = useRouter();
+
+    const handleLogout = () => {
+      router.push('/login');
+    };
+
     return {
-      router,
+      handleLogout,
     };
   },
 });
