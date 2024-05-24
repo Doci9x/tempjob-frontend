@@ -5,7 +5,7 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Jobtitel</th>
+        <th>Unternehmen</th>
         <th>Beschreibung</th>
         <th>Email</th>
         <th>Aktionen</th>
