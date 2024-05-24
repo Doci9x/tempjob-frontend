@@ -33,23 +33,21 @@
   </div>
 </template>
 
-
 <script>
 import FeedbackMessage from '@/components/FeedbackMessage.vue';
-import { jobs } from '@/data/jobs'; // Import der ausgelagerten Job-Daten
+import api from '@/api'; // Importiere die API-Client-Funktion
 
 export default {
-  name: "RestaurantJobList",
+  name: "TempJobList",
   components: {
     FeedbackMessage
   },
   data() {
     return {
-      restaurantJobs: jobs, // Importierte Job-Daten
+      restaurantJobs: [], // Leeres Array zum Speichern der Job-Daten
       newJobName: '',
       newJobDescription: '',
       newJobEmail: '',
-      nextJobId: 11,  // die ID fortlaufend
       feedbackMessage: '',
       searchText: ''
     };
@@ -64,28 +62,44 @@ export default {
     }
   },
   methods: {
+    fetchJobs() {
+      api.getJobs().then(response => {
+        this.restaurantJobs = response.data;
+      }).catch(error => {
+        console.error('Error fetching jobs:', error);
+      });
+    },
     addJob() {
-      if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
-        this.restaurantJobs.push({
-          id: this.nextJobId++,
-          name: this.newJobName,
-          description: this.newJobDescription,
-          email: this.newJobEmail
-        });
+      const newJob = {
+        name: this.newJobName,
+        description: this.newJobDescription,
+        email: this.newJobEmail
+      };
+      api.createJob(newJob).then(response => {
+        this.restaurantJobs.push(response.data);
         this.newJobName = '';
         this.newJobDescription = '';
         this.newJobEmail = '';
         this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-      } else {
-        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
-      }
+      }).catch(error => {
+        console.error('Error adding job:', error);
+        this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
+      });
     },
-    deleteJob(jobId) {
-      this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
-      this.feedbackMessage = 'Job erfolgreich gelöscht!';
+    deleteJob(id) {
+      api.deleteJob(id).then(() => {
+        this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== id);
+        this.feedbackMessage = 'Job erfolgreich gelöscht!';
+      }).catch(error => {
+        console.error('Error deleting job:', error);
+        this.feedbackMessage = 'Fehler beim Löschen des Jobs';
+      });
     }
+  },
+  mounted() {
+    this.fetchJobs(); // Daten abrufen, wenn die Komponente gemountet wird
   }
-}
+};
 </script>
 
 <style scoped>
@@ -118,4 +132,3 @@ input[type="text"] {
   margin-right: 10px; /* Definiert den Abstand zwischen den Buttons */
 }
 </style>
-
