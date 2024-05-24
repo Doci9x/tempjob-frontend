@@ -5,7 +5,7 @@
     <table class="table">
       <thead>
       <tr>
-        <th>Restaurant</th>
+        <th>Jobtitel</th>
         <th>Beschreibung</th>
         <th>Email</th>
         <th>Aktionen</th>
@@ -24,7 +24,7 @@
       </tbody>
     </table>
     <div class="add-job-form d-flex">
-      <input type="text" v-model="newJobName" placeholder="Restaurantname" class="form-control mb-2"/>
+      <input type="text" v-model="newJobName" placeholder="Jobtitel" class="form-control mb-2"/>
       <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" class="form-control mb-2"/>
       <input type="text" v-model="newJobEmail" placeholder="Email" class="form-control mb-2"/>
       <button @click="addJob" class="btn-add btn btn-success">Hinzufügen</button>
@@ -34,8 +34,8 @@
 </template>
 
 <script>
+import axios from 'axios';
 import FeedbackMessage from '@/components/FeedbackMessage.vue';
-import api from '@/api'; // Importiere die API-Client-Funktion
 
 export default {
   name: "TempJobList",
@@ -44,13 +44,16 @@ export default {
   },
   data() {
     return {
-      restaurantJobs: [], // Leeres Array zum Speichern der Job-Daten
+      restaurantJobs: [],
       newJobName: '',
       newJobDescription: '',
       newJobEmail: '',
       feedbackMessage: '',
       searchText: ''
     };
+  },
+  created() {
+    this.loadJobs();
   },
   computed: {
     filteredJobs() {
@@ -62,44 +65,51 @@ export default {
     }
   },
   methods: {
-    fetchJobs() {
-      api.getJobs().then(response => {
-        this.restaurantJobs = response.data;
-      }).catch(error => {
-        console.error('Error fetching jobs:', error);
-      });
+    loadJobs() {
+      axios.get('https://webtech-project-backend.onrender.com/api/jobs')
+        .then(response => {
+          this.restaurantJobs = response.data;
+        })
+        .catch(error => {
+          console.error("There was an error fetching the jobs!", error);
+        });
     },
     addJob() {
-      const newJob = {
-        name: this.newJobName,
-        description: this.newJobDescription,
-        email: this.newJobEmail
-      };
-      api.createJob(newJob).then(response => {
-        this.restaurantJobs.push(response.data);
-        this.newJobName = '';
-        this.newJobDescription = '';
-        this.newJobEmail = '';
-        this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-      }).catch(error => {
-        console.error('Error adding job:', error);
-        this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
-      });
+      if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
+        const newJob = {
+          name: this.newJobName,
+          description: this.newJobDescription,
+          email: this.newJobEmail
+        };
+        axios.post('https://webtech-project-backend.onrender.com/api/jobs', newJob)
+          .then(response => {
+            this.restaurantJobs.push(response.data);
+            this.newJobName = '';
+            this.newJobDescription = '';
+            this.newJobEmail = '';
+            this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
+          })
+          .catch(error => {
+            console.error("There was an error adding the job!", error);
+            this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
+          });
+      } else {
+        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
+      }
     },
-    deleteJob(id) {
-      api.deleteJob(id).then(() => {
-        this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== id);
-        this.feedbackMessage = 'Job erfolgreich gelöscht!';
-      }).catch(error => {
-        console.error('Error deleting job:', error);
-        this.feedbackMessage = 'Fehler beim Löschen des Jobs';
-      });
+    deleteJob(jobId) {
+      axios.delete(`https://webtech-project-backend.onrender.com/api/jobs/${jobId}`)
+        .then(() => {
+          this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
+          this.feedbackMessage = 'Job erfolgreich gelöscht!';
+        })
+        .catch(error => {
+          console.error("There was an error deleting the job!", error);
+          this.feedbackMessage = 'Fehler beim Löschen des Jobs';
+        });
     }
-  },
-  mounted() {
-    this.fetchJobs(); // Daten abrufen, wenn die Komponente gemountet wird
   }
-};
+}
 </script>
 
 <style scoped>
