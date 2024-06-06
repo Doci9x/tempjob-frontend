@@ -1,7 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom sticky-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">TempJob-Connect</a>
+      <router-link to="/" class="navbar-brand">TempJob-Connect</router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -10,7 +10,7 @@
           <router-link to="/login" class="nav-link">Login</router-link>
           <router-link to="/register" class="nav-link">Register</router-link>
           <router-link to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
-          <router-link to="/admin" class="nav-link">Admin-Dashboard</router-link>
+          <router-link to="/job-create" class="nav-link">Job erstellen</router-link>
         </div>
         <div class="navbar-nav ms-auto">
           <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
@@ -49,4 +49,5 @@ export default defineComponent({
 .nav-link:hover {
   color: #ef0b0b;
 }
+
 </style>
