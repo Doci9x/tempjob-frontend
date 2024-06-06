@@ -9,7 +9,7 @@
         <div class="navbar-nav" v-if="navLinks.length">
           <router-link v-for="link in navLinks" :key="link" :to="getLinkPath(link)" class="nav-link">{{ link }}</router-link>
         </div>
-        <div class="navbar-nav ms-auto" v-if="navLinks.length">
+        <div class="navbar-nav ms-auto" v-if="showLogout">
           <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
@@ -20,7 +20,6 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-// Import as type-only
 import type { RouteName } from '@/Config/NavbarConfig';
 import { navbarConfig } from '@/Config/NavbarConfig';
 
@@ -35,7 +34,11 @@ export default defineComponent({
     };
 
     const navLinks = computed(() => {
-      return navbarConfig[route.name as RouteName] || [];
+      return navbarConfig[route.name as RouteName]?.links || [];
+    });
+
+    const showLogout = computed(() => {
+      return navbarConfig[route.name as RouteName]?.showLogout || false;
     });
 
     const getLinkPath = (link: string) => {
@@ -53,6 +56,7 @@ export default defineComponent({
       handleLogout,
       navLinks,
       getLinkPath,
+      showLogout,
     };
   },
 });
