@@ -3,7 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 import TempjobView from '@/pages/TempjobView.vue';
 import RegisterView from '@/pages/RegisterView.vue';
 import LoginView from '@/pages/LoginView.vue';
-import AdminView from '@/pages/AdminDashView.vue';
+import JobCreate from '@/pages/JobCreate.vue';
+import JobDetails from '@/pages/JobDetails.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,9 +30,14 @@ const router = createRouter({
       component: TempjobView
     },
     {
-      path: '/admin',
-      name: 'Admin',
-      component: AdminView
+      path: '/job-create',
+      name: 'JobCreate',
+      component: JobCreate
+    },
+    {
+      path: '/job/:id',
+      name: 'JobDetails',
+      component: JobDetails
     }
   ]
 });
