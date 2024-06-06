@@ -23,6 +23,7 @@
             <li><a class="dropdown-item" href="#">Einstellungen</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Einträge Verwalten</a></li>
+            <li><a class="dropdown-item" href="#">Bewerbungen Verwalten</a></li>
             <li><a class="dropdown-item" href="#">Benachrichtigungen</a></li>
             <li><a class="dropdown-item" href="#">Chats</a></li>
             <li><hr class="dropdown-divider"></li>

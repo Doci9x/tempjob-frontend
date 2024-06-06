@@ -8,6 +8,7 @@ const apiClient = axios.create({
 });
 
 export default {
+  // Job-APIs
   getJobs() {
     return apiClient.get('/jobs');
   },
@@ -22,5 +23,25 @@ export default {
   },
   patchJob(id, job) {
     return apiClient.patch(`/jobs/${id}`, job);
+  },
+
+  // AppUser-APIs
+  getUsers() {
+    return apiClient.get('/users');
+  },
+  getUser(id) {
+    return apiClient.get(`/users/${id}`);
+  },
+  createUser(user) {
+    return apiClient.post('/users', user);
+  },
+  updateUser(id, user) {
+    return apiClient.put(`/users/${id}`, user);
+  },
+  patchUser(id, user) {
+    return apiClient.patch(`/users/${id}`, user);
+  },
+  deleteUser(id) {
+    return apiClient.delete(`/users/${id}`);
   }
 };
