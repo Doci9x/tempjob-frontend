@@ -7,12 +7,9 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link to="/login" class="nav-link">Login</router-link>
-          <router-link to="/register" class="nav-link">Register</router-link>
-          <router-link to="/tempjob" class="nav-link">TempJob-Angebote</router-link>
-          <router-link to="/job-create" class="nav-link">Job erstellen</router-link>
+          <router-link v-for="link in visibleLinks" :key="link.path" :to="link.path" class="nav-link">{{ link.label }}</router-link>
         </div>
-        <div class="navbar-nav ms-auto">
+        <div class="navbar-nav ms-auto" v-if="visibleLinks.length">
           <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
@@ -21,20 +18,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useRouter } from 'vue-router';
+import { defineComponent, computed } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { navbarConfig, RouteName } from '@/Config/NavbarConfig';
 
 export default defineComponent({
   name: 'Navbar',
   setup() {
     const router = useRouter();
+    const route = useRoute();
 
     const handleLogout = () => {
       router.push('/login');
     };
 
+    const visibleLinks = computed(() => {
+      const routeName = route.name as RouteName;
+      return navbarConfig[routeName] || [];
+    });
+
     return {
       handleLogout,
+      visibleLinks,
     };
   },
 });
@@ -49,5 +54,4 @@ export default defineComponent({
 .nav-link:hover {
   color: #ef0b0b;
 }
-
 </style>

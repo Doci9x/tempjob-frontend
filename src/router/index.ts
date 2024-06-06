@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-
+import WelcomeView from '@/pages/WelcomeView.vue';
 import TempjobView from '@/pages/TempjobView.vue';
 import RegisterView from '@/pages/RegisterView.vue';
 import LoginView from '@/pages/LoginView.vue';
@@ -12,7 +12,12 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/welcome'
+    },
+    {
+      path: '/welcome',
+      name: 'Welcome',
+      component: WelcomeView
     },
     {
       path: '/login',
