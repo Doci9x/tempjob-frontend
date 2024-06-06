@@ -1,6 +1,6 @@
 <template>
   <div class="container mt-5">
-    <h2>Login</h2>
+    <h2>Willkommen zurück!</h2>
     <form @submit.prevent="handleLogin">
       <div class="mb-3">
         <label for="username" class="form-label">Username</label>
@@ -13,21 +13,11 @@
       <button type="submit" class="btn btn-primary">Login</button>
     </form>
 
-    <!-- Toast -->
-    <div v-if="showToast" class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11">
-      <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-header">
-          <strong class="me-auto">Willkommen</strong>
-          <button type="button" class="btn-close" aria-label="Close" @click="showToast = false"></button>
-        </div>
-        <div class="toast-body">
-          <pre>
-username: 'user', password: '123'
-username: 'admin', password: '123'
-          </pre>
-        </div>
-      </div>
-    </div>
+    <!-- Register Link -->
+    <p class="mt-3">
+      Du hast noch kein Konto?
+      <router-link to="/register" class="register-link">Registrieren</router-link>
+    </p>
   </div>
 </template>
 
@@ -40,7 +30,6 @@ export default defineComponent({
   setup() {
     const username = ref('');
     const password = ref('');
-    const showToast = ref(true); // Initialize the toast to be visible
 
     const router = useRouter();
 
@@ -51,7 +40,6 @@ export default defineComponent({
     return {
       username,
       password,
-      showToast,
       handleLogin,
     };
   },
@@ -61,16 +49,15 @@ export default defineComponent({
 <style scoped>
 .container {
   max-width: 500px;
+  margin: auto;
 }
 
-.toast-container {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1055;
+.register-link {
+  color: #007bff;
+  text-decoration: none;
 }
 
-.toast {
-  display: block;
+.register-link:hover {
+  text-decoration: underline;
 }
 </style>

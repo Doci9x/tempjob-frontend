@@ -11,8 +11,13 @@
         <input type="password" class="form-control" id="password" v-model="password" required>
       </div>
       <button type="submit" class="btn btn-primary">Register</button>
-      <div v-if="error" class="alert alert-danger mt-3">{{ error }}</div>
     </form>
+
+    <!-- Login Link -->
+    <p class="mt-3">
+      Du hast schon ein Konto?
+      <router-link to="/login" class="login-link">Login</router-link>
+    </p>
   </div>
 </template>
 
@@ -25,23 +30,18 @@ export default defineComponent({
   setup() {
     const username = ref('');
     const password = ref('');
-    const error = ref('');
     const router = useRouter();
 
     const handleRegister = () => {
       if (username.value && password.value) {
-        error.value = '';
         // Redirect to login after "registration"
         router.push('/login');
-      } else {
-        error.value = 'Bitte geben Sie einen Username und ein Passwort an!';
       }
     };
 
     return {
       username,
       password,
-      error,
       handleRegister,
     };
   },
@@ -51,5 +51,13 @@ export default defineComponent({
 <style scoped>
 .container {
   max-width: 500px;
+}
+.login-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-link:hover {
+  text-decoration: underline;
 }
 </style>
