@@ -2,14 +2,14 @@ export type RouteName = 'Welcome' | 'Login' | 'Register' | 'TempJob' | 'JobCreat
 
 interface NavbarConfig {
   links: string[];
-  showLogout: boolean;
+  showProfileIcon: boolean;
 }
 
 export const navbarConfig: { [key in RouteName]: NavbarConfig } = {
-  Welcome: { links: [], showLogout: false },
-  Login: { links: [], showLogout: false },
-  Register: { links: [], showLogout: false },
-  TempJob: { links: ['TempJob-Angebote', 'Job erstellen'], showLogout: true },
-  JobCreate: { links: ['TempJob-Angebote', 'Job erstellen'], showLogout: true },
-  JobDetails: { links: ['TempJob-Angebote'], showLogout: true },
+  Welcome: { links: [], showProfileIcon: false },
+  Login: { links: [], showProfileIcon: false },
+  Register: { links: [], showProfileIcon: false },
+  TempJob: { links: ['TempJob-Angebote', 'Job erstellen'], showProfileIcon: true },
+  JobCreate: { links: ['TempJob-Angebote', 'Job erstellen'], showProfileIcon: true },
+  JobDetails: { links: ['TempJob-Angebote'], showProfileIcon: true },
 };

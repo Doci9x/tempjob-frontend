@@ -9,8 +9,25 @@
         <div class="navbar-nav" v-if="navLinks.length">
           <router-link v-for="link in navLinks" :key="link" :to="getLinkPath(link)" class="nav-link">{{ link }}</router-link>
         </div>
-        <div class="navbar-nav ms-auto" v-if="showLogout">
-          <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
+        <div class="navbar-nav ms-auto dropdown" v-if="showProfileIcon">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://img.icons8.com/?size=100&id=KGfitZgTwrZL&format=png&color=416DE0" alt="Profile" class="rounded-circle" width="45" height="45">
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+            <li class="dropdown-header d-flex align-items-center">
+              <img :src="userProfileImage" alt="Profile Picture" class="rounded-circle me-2" width="30" height="30">
+              {{ userName }}
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Profil Bearbeiten</a></li>
+            <li><a class="dropdown-item" href="#">Einstellungen</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Einträge Verwalten</a></li>
+            <li><a class="dropdown-item" href="#">Benachrichtigungen</a></li>
+            <li><a class="dropdown-item" href="#">Chats</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" @click="handleLogout" style="cursor: pointer;">Abmelden</a></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -29,6 +46,9 @@ export default defineComponent({
     const router = useRouter();
     const route = useRoute();
 
+    const userName = 'John Doe'; // Beispiel für den Benutzernamen
+    const userProfileImage = 'https://img.icons8.com/?size=100&id=7819&format=png&color=000000'; // Beispiel für das Profilbild
+
     const handleLogout = () => {
       router.push('/login');
     };
@@ -37,8 +57,8 @@ export default defineComponent({
       return navbarConfig[route.name as RouteName]?.links || [];
     });
 
-    const showLogout = computed(() => {
-      return navbarConfig[route.name as RouteName]?.showLogout || false;
+    const showProfileIcon = computed(() => {
+      return navbarConfig[route.name as RouteName]?.showProfileIcon || false;
     });
 
     const getLinkPath = (link: string) => {
@@ -56,7 +76,9 @@ export default defineComponent({
       handleLogout,
       navLinks,
       getLinkPath,
-      showLogout,
+      showProfileIcon,
+      userName,
+      userProfileImage,
     };
   },
 });
@@ -70,5 +92,23 @@ export default defineComponent({
 
 .nav-link:hover {
   color: #ef0b0b;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.rounded-circle {
+  border-radius: 50%;
+}
+
+.dropdown-header {
+  display: flex;
+  align-items: center;
 }
 </style>
