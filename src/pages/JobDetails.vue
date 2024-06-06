@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <button @click="goBack" class="btn btn-secondary mb-3">Zurück</button>
+    <div class="header-buttons">
+      <button @click="goBack" class="btn btn-secondary mb-3">Zurück</button>
+      <button @click="applyForJob" class="btn btn-success mb-3">Bewerben</button>
+    </div>
     <div v-if="job">
       <div class="job-header">
         <h1>{{ job.name }}</h1>
@@ -73,7 +76,7 @@ export default {
     },
     goBack() {
       this.$router.push('/tempjob');
-    }
+    },
   }
 };
 </script>
@@ -96,7 +99,12 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Überschrift-Stile */
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .job-header {
   text-align: center;
   margin-bottom: 20px;
@@ -114,7 +122,6 @@ body {
   margin-top: 5px;
 }
 
-/* Tabelle-Stile */
 .job-details {
   width: 100%;
   border-collapse: collapse;
@@ -144,5 +151,16 @@ body {
 .btn-secondary:hover {
   background-color: #5a6268;
   border-color: #545b62;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  color: white;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
 }
 </style>
