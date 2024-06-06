@@ -17,43 +17,30 @@
         <td>{{ job.description }}</td>
         <td>{{ job.email }}</td>
         <td>
-          <button @click="deleteJob(job.id)" class="btn btn-danger action-button">Löschen</button>
-          <button class="btn btn-primary action-button">Details</button>
+          <button @click="viewDetails(job.id)" class="btn btn-primary action-button">Details</button>
         </td>
       </tr>
       </tbody>
     </table>
-    <div class="add-job-form d-flex">
-      <input type="text" v-model="newJobName" placeholder="Jobtitel" class="form-control mb-2"/>
-      <input type="text" v-model="newJobDescription" placeholder="Jobbeschreibung" class="form-control mb-2"/>
-      <input type="text" v-model="newJobEmail" placeholder="Email" class="form-control mb-2"/>
-      <button @click="addJob" class="btn-add btn btn-success">Hinzufügen</button>
-    </div>
-    <FeedbackMessage :message="feedbackMessage" />
   </div>
 </template>
 
 <script>
 import axios from 'axios';
-import FeedbackMessage from '@/components/FeedbackMessage.vue';
 
 export default {
   name: "TempJobList",
-  components: {
-    FeedbackMessage
-  },
   data() {
     return {
       restaurantJobs: [],
-      newJobName: '',
-      newJobDescription: '',
-      newJobEmail: '',
-      feedbackMessage: '',
       searchText: ''
     };
   },
   created() {
     this.loadJobs();
+  },
+  watch: {
+    '$route': 'loadJobs' // Neu Laden der Jobs wenn Route sich ändert
   },
   computed: {
     filteredJobs() {
@@ -74,39 +61,8 @@ export default {
           console.error("There was an error fetching the jobs!", error);
         });
     },
-    addJob() {
-      if (this.newJobName.trim() && this.newJobDescription.trim() && this.newJobEmail.trim()) {
-        const newJob = {
-          name: this.newJobName,
-          description: this.newJobDescription,
-          email: this.newJobEmail
-        };
-        axios.post('https://webtech-project-backend.onrender.com/api/jobs', newJob)
-          .then(response => {
-            this.restaurantJobs.push(response.data);
-            this.newJobName = '';
-            this.newJobDescription = '';
-            this.newJobEmail = '';
-            this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-          })
-          .catch(error => {
-            console.error("There was an error adding the job!", error);
-            this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
-          });
-      } else {
-        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
-      }
-    },
-    deleteJob(jobId) {
-      axios.delete(`https://webtech-project-backend.onrender.com/api/jobs/${jobId}`)
-        .then(() => {
-          this.restaurantJobs = this.restaurantJobs.filter(job => job.id !== jobId);
-          this.feedbackMessage = 'Job erfolgreich gelöscht!';
-        })
-        .catch(error => {
-          console.error("There was an error deleting the job!", error);
-          this.feedbackMessage = 'Fehler beim Löschen des Jobs';
-        });
+    viewDetails(jobId) {
+      this.$router.push(`/job/${jobId}`);
     }
   }
 }
@@ -130,11 +86,6 @@ export default {
 
 input[type="text"] {
   margin-bottom: 10px;
-}
-
-.btn-add {
-  margin-left: 10px;
-  color: white;
 }
 
 /* Neue CSS-Klasse für Abstand zwischen den Buttons */
