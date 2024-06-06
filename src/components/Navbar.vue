@@ -19,15 +19,36 @@
               {{ userName }}
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Profil Bearbeiten</a></li>
-            <li><a class="dropdown-item" href="#">Einstellungen</a></li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=50jQltuChBWa&format=png&color=000000" alt="Edit Profile" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Profil Bearbeiten</a>
+            </li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=364&format=png&color=000000" alt="Settings" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Einstellungen</a>
+            </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Einträge Verwalten</a></li>
-            <li><a class="dropdown-item" href="#">Bewerbungen Verwalten</a></li>
-            <li><a class="dropdown-item" href="#">Benachrichtigungen</a></li>
-            <li><a class="dropdown-item" href="#">Chats</a></li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=25643&format=png&color=000000" alt="Manage Entries" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Einträge Verwalten</a>
+            </li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="Manage Applications" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Bewerbungen Verwalten</a>
+            </li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=118377&format=png&color=000000" alt="Notifications" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Benachrichtigungen</a>
+            </li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=GEe8kmVKjZaY&format=png&color=000000" alt="Chats" width="20" height="20" class="me-2">
+              <a class="dropdown-item" href="#">Chats</a>
+            </li>
             <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" @click="handleLogout" style="cursor: pointer;">Abmelden</a></li>
+            <li class="d-flex align-items-center dropdown-item-custom">
+              <img src="https://img.icons8.com/?size=100&id=j8vtslxN0LJo&format=png&color=000000" alt="Logout" width="20" height="20" class="me-2">
+              <a class="dropdown-item" @click="handleLogout" style="cursor: pointer;">Abmelden</a>
+            </li>
           </ul>
         </div>
       </div>
@@ -36,8 +57,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
+import { defineComponent, computed, ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import apiClient from '@/api'; // Importieren des Axios-Clients
 import type { RouteName } from '@/Config/NavbarConfig';
 import { navbarConfig } from '@/Config/NavbarConfig';
 
@@ -46,9 +68,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const route = useRoute();
-
-    const userName = 'John Doe'; // Beispiel für den Benutzernamen
-    const userProfileImage = 'https://img.icons8.com/?size=100&id=7819&format=png&color=000000'; // Beispiel für das Profilbild
+    const userName = ref('John Doe'); // Beispiel für den Benutzernamen
+    const userProfileImage = 'https://img.icons8.com/?size=100&id=7819&format=png&color=000000';
 
     const handleLogout = () => {
       router.push('/login');
@@ -72,6 +93,19 @@ export default defineComponent({
           return '/';
       }
     };
+
+    const loadUserData = async () => {
+      try {
+        const response = await apiClient.get('/users/me'); // Beispiel-URL, anpassen je nach API
+        userName.value = response.data.username;
+      } catch (error) {
+        console.error('Error loading user data', error);
+      }
+    };
+
+    onMounted(() => {
+      loadUserData();
+    });
 
     return {
       handleLogout,
@@ -111,5 +145,18 @@ export default defineComponent({
 .dropdown-header {
   display: flex;
   align-items: center;
+}
+
+.me-2 {
+  margin-right: 0.5rem;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item-custom {
+  padding-left: 10px;
 }
 </style>
