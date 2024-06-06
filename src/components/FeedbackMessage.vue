@@ -1,22 +1,30 @@
 <template>
-  <div v-if="message" class="alert alert-success d-flex align-items-center" role="alert">
-    <i class="bi bi-check-circle-fill me-2"></i>
-    <div>
-      {{ message }}
-    </div>
+  <div>
+    <p :class="{'text-success': !error, 'text-danger': error}" v-if="message">{{ message }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['message']
+  props: {
+    message: {
+      type: String,
+      required: true
+    },
+    error: {
+      type: Boolean,
+      default: false
+    }
+  }
 }
 </script>
 
 <style scoped>
-.alert {
-  color: #0f5132; /* Dunkelgrüne Schriftfarbe für den Erfolg */
-  background-color: #d1e7dd; /* Helle grüne Hintergrundfarbe */
-  border-color: #badbcc; /* Dunklere grüne Randfarbe */
+.text-success {
+  color: green;
+}
+
+.text-danger {
+  color: red;
 }
 </style>
