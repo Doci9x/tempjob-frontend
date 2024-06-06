@@ -59,7 +59,8 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import apiClient from '@/api'; // Importieren des Axios-Clients
+// @ts-ignore
+import apiClient from '@/api'; // Ignoriert Typprüfungsfehler für diesen Import
 import type { RouteName } from '@/Config/NavbarConfig';
 import { navbarConfig } from '@/Config/NavbarConfig';
 
@@ -118,6 +119,7 @@ export default defineComponent({
   },
 });
 </script>
+
 
 <style scoped>
 .nav-link {
