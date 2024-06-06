@@ -6,10 +6,10 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <router-link v-for="link in visibleLinks" :key="link.path" :to="link.path" class="nav-link">{{ link.label }}</router-link>
+        <div class="navbar-nav" v-if="navLinks.length">
+          <router-link v-for="link in navLinks" :key="link" :to="getLinkPath(link)" class="nav-link">{{ link }}</router-link>
         </div>
-        <div class="navbar-nav ms-auto" v-if="visibleLinks.length">
+        <div class="navbar-nav ms-auto" v-if="navLinks.length">
           <a @click="handleLogout" class="nav-link" style="cursor: pointer;">Logout</a>
         </div>
       </div>
@@ -20,7 +20,9 @@
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { navbarConfig, RouteName } from '@/Config/NavbarConfig';
+// Import as type-only
+import type { RouteName } from '@/Config/NavbarConfig';
+import { navbarConfig } from '@/Config/NavbarConfig';
 
 export default defineComponent({
   name: 'Navbar',
@@ -32,14 +34,25 @@ export default defineComponent({
       router.push('/login');
     };
 
-    const visibleLinks = computed(() => {
-      const routeName = route.name as RouteName;
-      return navbarConfig[routeName] || [];
+    const navLinks = computed(() => {
+      return navbarConfig[route.name as RouteName] || [];
     });
+
+    const getLinkPath = (link: string) => {
+      switch (link) {
+        case 'TempJob-Angebote':
+          return '/tempjob';
+        case 'Job erstellen':
+          return '/job-create';
+        default:
+          return '/';
+      }
+    };
 
     return {
       handleLogout,
-      visibleLinks,
+      navLinks,
+      getLinkPath,
     };
   },
 });

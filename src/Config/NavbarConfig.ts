@@ -1,15 +1,13 @@
-export type RouteName = 'Welcome' | 'Login' | 'Register' | 'Tempjob' | 'JobCreate';
+export type RouteName = 'Welcome' | 'Login' | 'Register' | 'TempJob' | 'JobCreate';
 
-export const navbarConfig: Record<RouteName, { path: string; label: string }[]> = {
+interface NavbarConfig {
+  [key: string]: string[];
+}
+
+export const navbarConfig: NavbarConfig = {
   Welcome: [],
   Login: [],
   Register: [],
-  Tempjob: [
-    { path: '/tempjob', label: 'TempJob-Angebote' },
-    { path: '/job-create', label: 'Job erstellen' },
-  ],
-  JobCreate: [
-    { path: '/tempjob', label: 'TempJob-Angebote' },
-    { path: '/job-create', label: 'Job erstellen' },
-  ],
+  TempJob: ['TempJob-Angebote', 'Job erstellen'],
+  JobCreate: ['TempJob-Angebote', 'Job erstellen']
 };
