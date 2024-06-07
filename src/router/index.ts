@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 import TempjobView from '@/pages/TempjobView.vue';
 import RegisterView from '@/pages/RegisterView.vue';
+import RegisterDetails from '@/pages/RegisterDetails.vue';
 import LoginView from '@/pages/LoginView.vue';
 import JobCreate from '@/pages/JobCreate.vue';
 import JobDetails from '@/pages/JobDetails.vue';
@@ -22,6 +23,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: RegisterView
+  },
+  {
+    path: '/register-details',
+    name: 'RegisterDetails',
+    component: RegisterDetails
   },
   {
     path: '/tempjob',
