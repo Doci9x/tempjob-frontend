@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import api from '@/api';
+import apiClient from '@/api';
 
 export default defineComponent({
   name: 'RegisterDetails',
@@ -63,7 +63,7 @@ export default defineComponent({
           address: address.value,
         };
         try {
-          await api.createUser(user);
+          await apiClient.createUser(user);
           alert('User created successfully');
           router.push('/login');
         } catch (error) {

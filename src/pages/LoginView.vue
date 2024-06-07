@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import api from '@/api';
+import apiClient from '@/api';
 
 export default defineComponent({
   name: 'LoginView',
@@ -37,7 +37,7 @@ export default defineComponent({
 
     const handleLogin = async () => {
       try {
-        const response = await api.loginUser({ username: username.value, password: password.value });
+        const response = await apiClient.loginUser({ username: username.value, password: password.value });
         if (response.status === 200) {
           router.push('/tempjob');
         }
