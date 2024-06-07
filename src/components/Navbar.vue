@@ -38,7 +38,7 @@
             </li>
             <li class="d-flex align-items-center dropdown-item-custom">
               <img src="https://img.icons8.com/?size=100&id=118377&format=png&color=000000" alt="Notifications" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Benachrichtigungen</a>
+              <router-link class="dropdown-item" to="/notifications">Benachrichtigungen <span class="badge">{{ unreadCount }}</span></router-link>
             </li>
             <li class="d-flex align-items-center dropdown-item-custom">
               <img src="https://img.icons8.com/?size=100&id=GEe8kmVKjZaY&format=png&color=000000" alt="Chats" width="20" height="20" class="me-2">
@@ -59,8 +59,7 @@
 <script lang="ts">
 import { defineComponent, computed, ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-// @ts-ignore
-import apiClient from '@/api'; // Ignoriert Typprüfungsfehler für diesen Import
+import apiClient from '@/api';
 import type { RouteName } from '@/Config/NavbarConfig';
 import { navbarConfig } from '@/Config/NavbarConfig';
 
@@ -71,6 +70,7 @@ export default defineComponent({
     const route = useRoute();
     const userName = ref('John Doe'); // Beispiel für den Benutzernamen
     const userProfileImage = 'https://img.icons8.com/?size=100&id=7819&format=png&color=000000';
+    const unreadCount = ref(0);
 
     const handleLogout = () => {
       router.push('/login');
@@ -95,17 +95,17 @@ export default defineComponent({
       }
     };
 
-    const loadUserData = async () => {
+    const loadUnreadCount = async () => {
       try {
-        const response = await apiClient.get('/users/me'); // Beispiel-URL, anpassen je nach API
-        userName.value = response.data.username;
+        const response = await apiClient.getUnreadNotificationsByUserId(1); // Beispiel-URL, anpassen je nach API
+        unreadCount.value = response.data.length;
       } catch (error) {
-        console.error('Error loading user data', error);
+        console.error('Error loading unread notifications count', error);
       }
     };
 
     onMounted(() => {
-      loadUserData();
+      loadUnreadCount();
     });
 
     return {
@@ -115,11 +115,11 @@ export default defineComponent({
       showProfileIcon,
       userName,
       userProfileImage,
+      unreadCount,
     };
   },
 });
 </script>
-
 
 <style scoped>
 .nav-link {
@@ -160,5 +160,13 @@ export default defineComponent({
 
 .dropdown-item-custom {
   padding-left: 10px;
+}
+
+.badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 0 6px;
+  font-size: 12px;
 }
 </style>
