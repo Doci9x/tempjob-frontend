@@ -44,6 +44,9 @@ export default {
   deleteUser(id) {
     return apiClient.delete(`/users/${id}`);
   },
+  loginUser(user) {
+    return apiClient.post('/users/login', user);
+  },
 
   // Notification-APIs
   getNotificationsByUserId(userId) {
