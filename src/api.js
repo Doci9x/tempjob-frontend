@@ -58,7 +58,7 @@ export default {
   createNotification(notification) {
     return apiClient.post('/notifications', notification);
   },
-  markAsRead(notificationId) {
+  markNotificationAsRead(notificationId) {
     return apiClient.patch(`/notifications/${notificationId}`);
   },
   deleteAllNotifications() {
