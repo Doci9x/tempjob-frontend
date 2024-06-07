@@ -97,7 +97,7 @@ export default defineComponent({
 
     const loadUnreadCount = async () => {
       try {
-        const response = await apiClient.getUnreadNotificationsByUserId(1); // Beispiel-URL, anpassen je nach API
+        const response = await apiClient.getUnreadNotificationsByUserId(1);
         unreadCount.value = response.data.length;
       } catch (error) {
         console.error('Error loading unread notifications count', error);
