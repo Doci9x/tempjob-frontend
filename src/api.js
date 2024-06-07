@@ -43,5 +43,25 @@ export default {
   },
   deleteUser(id) {
     return apiClient.delete(`/users/${id}`);
+  },
+
+  // Notification-APIs
+  getNotificationsByUserId(userId) {
+    return apiClient.get(`/notifications/user/${userId}`);
+  },
+  getUnreadNotificationsByUserId(userId) {
+    return apiClient.get(`/notifications/unread/${userId}`);
+  },
+  createNotification(notification) {
+    return apiClient.post('/notifications', notification);
+  },
+  markAsRead(notificationId) {
+    return apiClient.patch(`/notifications/${notificationId}`);
+  },
+  deleteAllNotifications() {
+    return apiClient.delete('/notifications/all');
+  },
+  getAllNotifications() {
+    return apiClient.get('/notifications');
   }
 };
