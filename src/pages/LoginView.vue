@@ -24,22 +24,32 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '@/api';
 
 export default defineComponent({
   name: 'LoginView',
   setup() {
     const username = ref('');
     const password = ref('');
+    const error = ref('');
 
     const router = useRouter();
 
-    const handleLogin = () => {
-      router.push('/tempjob');
+    const handleLogin = async () => {
+      try {
+        const response = await api.loginUser({ username: username.value, password: password.value });
+        if (response.status === 200) {
+          router.push('/tempjob');
+        }
+      } catch (err) {
+        error.value = 'Ungültige Anmeldeinformationen';
+      }
     };
 
     return {
       username,
       password,
+      error,
       handleLogin,
     };
   },
@@ -59,5 +69,10 @@ export default defineComponent({
 
 .register-link:hover {
   text-decoration: underline;
+}
+
+.error {
+  color: red;
+  margin-top: 10px;
 }
 </style>

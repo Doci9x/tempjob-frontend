@@ -34,8 +34,13 @@ export default defineComponent({
 
     const handleRegister = () => {
       if (username.value && password.value) {
-        // Redirect to login after "registration"
-        router.push('/login');
+        router.push({
+          path: '/register-details',
+          query: {
+            username: username.value,
+            password: password.value
+          }
+        });
       }
     };
 
