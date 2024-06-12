@@ -35,36 +35,12 @@ export default {
   createUser(user) {
     return apiClient.post('/users', user);
   },
-  updateUser(id, user) {
-    return apiClient.put(`/users/${id}`, user);
-  },
-  patchUser(id, user) {
-    return apiClient.patch(`/users/${id}`, user);
-  },
-  deleteUser(id) {
-    return apiClient.delete(`/users/${id}`);
-  },
   loginUser(user) {
     return apiClient.post('/users/login', user);
   },
 
-  // Notification-APIs
-  getNotificationsByUserId(userId) {
-    return apiClient.get(`/notifications/user/${userId}`);
+  // Application-APIs (hinzugefügt)
+  getApplications() {
+    return apiClient.get('/applications');
   },
-  getUnreadNotificationsByUserId(userId) {
-    return apiClient.get(`/notifications/unread/${userId}`);
-  },
-  createNotification(notification) {
-    return apiClient.post('/notifications', notification);
-  },
-  markNotificationAsRead(notificationId) {
-    return apiClient.patch(`/notifications/${notificationId}`);
-  },
-  deleteAllNotifications() {
-    return apiClient.delete('/notifications/all');
-  },
-  getAllNotifications() {
-    return apiClient.get('/notifications');
-  }
 };
