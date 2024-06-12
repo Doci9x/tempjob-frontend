@@ -11,7 +11,7 @@
       <input type="text" v-model="location" placeholder="Standort" class="form-control mb-2"/>
       <input type="date" v-model="startDate" class="form-control mb-2"/>
       <input type="date" v-model="endDate" class="form-control mb-2"/>
-      <button @click="handleSubmit" class="btn btn-success">Hinzufügen</button>
+      <button @click="handleSubmit" class="btn btn-primary">Hinzufügen</button>
     </div>
     <p :class="{'text-success': !isError, 'text-danger': isError}" v-if="feedbackMessage">{{ feedbackMessage }}</p>
   </div>
@@ -53,6 +53,7 @@ export default {
         };
         axios.post('https://webtech-project-backend.onrender.com/api/jobs', newJob)
           .then(response => {
+            console.log('Response received:', response); // Log the entire response
             this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
             this.isError = false;
             this.resetForm();
@@ -60,7 +61,12 @@ export default {
           })
           .catch(error => {
             console.error("Fehler beim Hinzufügen des Jobs!", error);
-            this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
+            if (error.response && error.response.data) {
+              console.error('Server response:', error.response.data); // Log server response
+              this.feedbackMessage = `Fehler: ${error.response.data.message || 'Unbekannter Fehler'}`;
+            } else {
+              this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
+            }
             this.isError = true;
           });
       } else {
@@ -86,17 +92,27 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f7;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
 .job-create {
-  max-width: 800px;
+  max-width: 700px;
   margin: 20px auto;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
 }
 
 .job-create h1 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: 500; /* Etwas dicker als normal */
 }
 
 .add-job-form {
@@ -105,19 +121,44 @@ export default {
 }
 
 .add-job-form .form-control {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 16px;
 }
 
-.btn-success {
-  align-self: flex-end;
+.add-job-form .form-control:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border: none;
   color: white;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 
 .text-success {
   color: green;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
 }
 
 .text-danger {
   color: red;
+  text-align: center;
+  margin-top: 20px;
+  font-weight: 500;
 }
 </style>

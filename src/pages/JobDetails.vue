@@ -2,47 +2,19 @@
   <div class="container">
     <div class="header-buttons">
       <button @click="goBack" class="btn btn-secondary mb-3">Zurück</button>
-      <button @click="applyForJob" class="btn btn-success mb-3">Bewerben</button>
+      <button @click="applyForJob" class="btn btn-primary mb-3">Bewerben</button>
     </div>
     <div v-if="job">
       <div class="job-header">
         <h1>{{ job.name }}</h1>
         <h2>{{ job.location }}</h2>
       </div>
-      <table class="job-details">
-        <tr>
-          <th>Beschreibung</th>
-          <td>{{ job.description }}</td>
-        </tr>
-        <tr>
-          <th>E-Mail</th>
-          <td>{{ job.email }}</td>
-        </tr>
-        <tr>
-          <th>Phone-Nummer</th>
-          <td>{{ job.phoneNumber }}</td>
-        </tr>
-        <tr>
-          <th>Ort</th>
-          <td>{{ job.location }}</td>
-        </tr>
-        <tr>
-          <th>Gehalt</th>
-          <td>{{ job.salary }}</td>
-        </tr>
-        <tr>
-          <th>Anforderungen</th>
-          <td>{{ job.requirements }}</td>
-        </tr>
-        <tr>
-          <th>Anfangsdatum</th>
-          <td>{{ job.startDate }}</td>
-        </tr>
-        <tr>
-          <th>Enddatum</th>
-          <td>{{ job.endDate }}</td>
-        </tr>
-      </table>
+      <div class="job-details">
+        <div class="job-detail" v-for="detail in jobDetails" :key="detail.title">
+          <h3>{{ detail.title }}</h3>
+          <p>{{ detail.value }}</p>
+        </div>
+      </div>
     </div>
     <div v-else>
       <p>Laden...</p>
@@ -60,6 +32,21 @@ export default {
       job: null
     };
   },
+  computed: {
+    jobDetails() {
+      if (!this.job) return [];
+      return [
+        { title: 'Beschreibung', value: this.job.description },
+        { title: 'E-Mail', value: this.job.email },
+        { title: 'Telefon-Nummer', value: this.job.phoneNumber },
+        { title: 'Ort', value: this.job.location },
+        { title: 'Gehalt', value: this.job.salary },
+        { title: 'Anforderungen', value: this.job.requirements },
+        { title: 'Anfangsdatum', value: this.job.startDate },
+        { title: 'Enddatum', value: this.job.endDate },
+      ];
+    }
+  },
   created() {
     this.loadJobDetails();
   },
@@ -71,7 +58,7 @@ export default {
           this.job = response.data;
         })
         .catch(error => {
-          console.error("There was an error fetching the job details!", error);
+          console.error("Error fetching job details", error);
         });
     },
     goBack() {
@@ -82,27 +69,34 @@ export default {
 </script>
 
 <style scoped>
-/* Allgemeine Stile */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f7;
+  color: #333;
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
-  color: #333;
 }
 
 .container {
-  max-width: 800px;
+  max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
   background-color: #fff;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .header-buttons {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header-buttons .btn {
+  font-size: 1em;
+  padding: 10px 20px;
+  border-radius: 20px;
+  margin: 0 10px;
 }
 
 .job-header {
@@ -111,35 +105,43 @@ body {
 }
 
 .job-header h1 {
-  font-size: 2em;
-  font-weight: bold;
+  font-size: 3em;
+  font-weight: 700;
+  color: #333;
 }
 
 .job-header h2 {
-  font-size: 1em;
-  font-style: italic;
+  font-size: 1.5em;
+  font-weight: 500;
   color: #666;
-  margin-top: 5px;
 }
 
 .job-details {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-.job-details th, .job-details td {
+.job-details .job-detail {
+  width: 48%;
+  margin-bottom: 10px;
+  background-color: #fff;
   padding: 10px;
   border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.job-details th {
-  background-color: #f0f0f0;
-  text-align: left;
+.job-details .job-detail h3 {
+  font-size: 1em;
+  font-weight: 500;
+  color: #007bff;
+  margin-bottom: 5px;
 }
 
-.job-details td {
-  background-color: #fff;
+.job-details .job-detail p {
+  font-size: 0.9em;
+  color: #555;
 }
 
 .btn-secondary {
@@ -150,17 +152,15 @@ body {
 
 .btn-secondary:hover {
   background-color: #5a6268;
-  border-color: #545b62;
 }
 
-.btn-success {
-  background-color: #28a745;
-  border-color: #28a745;
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
   color: white;
 }
 
-.btn-success:hover {
-  background-color: #218838;
-  border-color: #1e7e34;
+.btn-primary:hover {
+  background-color: #0056b3;
 }
 </style>

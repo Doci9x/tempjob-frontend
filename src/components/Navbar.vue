@@ -1,7 +1,10 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom sticky-top">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand">TempJob-Connect</router-link>
+      <router-link to="/" class="navbar-brand d-flex align-items-center">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/briefcase.png" alt="Logo" class="logo me-2">
+        TempJob-Connect
+      </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -11,43 +14,44 @@
         </div>
         <div class="navbar-nav ms-auto dropdown" v-if="showProfileIcon">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://img.icons8.com/?size=100&id=KGfitZgTwrZL&format=png&color=416DE0" alt="Profile" class="rounded-circle" width="45" height="45">
+            <img :src="profileIconUrl" alt="Profile" class="rounded-circle profile-icon">
           </a>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
             <li class="dropdown-header d-flex align-items-center">
-              <img :src="userProfileImage" alt="Profile Picture" class="rounded-circle me-2" width="30" height="30">
-              {{ userName }}
+              <img :src="userProfileImage" alt="Profile Picture" class="rounded-circle me-2 user-image">
+              <span>{{ userFullName }}</span>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=50jQltuChBWa&format=png&color=000000" alt="Edit Profile" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Profil Bearbeiten</a>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/edit--v1.png" alt="Edit Profile" class="icon me-2">
+              <a class="dropdown-link" href="#">Profil Bearbeiten</a>
             </li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=364&format=png&color=000000" alt="Settings" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Einstellungen</a>
-            </li>
-            <li><hr class="dropdown-divider"></li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=25643&format=png&color=000000" alt="Manage Entries" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Einträge Verwalten</a>
-            </li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=42763&format=png&color=000000" alt="Manage Applications" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Bewerbungen Verwalten</a>
-            </li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=118377&format=png&color=000000" alt="Notifications" width="20" height="20" class="me-2">
-              <router-link class="dropdown-item" to="/notifications">Benachrichtigungen <span class="badge">{{ unreadCount }}</span></router-link>
-            </li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=GEe8kmVKjZaY&format=png&color=000000" alt="Chats" width="20" height="20" class="me-2">
-              <a class="dropdown-item" href="#">Chats</a>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/settings.png" alt="Settings" class="icon me-2">
+              <a class="dropdown-link" href="#">Einstellungen</a>
             </li>
             <li><hr class="dropdown-divider"></li>
-            <li class="d-flex align-items-center dropdown-item-custom">
-              <img src="https://img.icons8.com/?size=100&id=j8vtslxN0LJo&format=png&color=000000" alt="Logout" width="20" height="20" class="me-2">
-              <a class="dropdown-item" @click="handleLogout" style="cursor: pointer;">Abmelden</a>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/list--v1.png" alt="Manage Entries" class="icon me-2">
+              <a class="dropdown-link" href="#">Einträge Verwalten</a>
+            </li>
+
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/briefcase.png" alt="Manage Applications" class="icon me-2">
+              <a class="dropdown-link" href="#">Bewerbungen Verwalten</a>
+            </li>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/bell.png" alt="Notifications" class="icon me-2">
+              <a class="dropdown-link" href="#">Benachrichtigungen <span class="badge">3</span></a>
+            </li>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/chat.png" alt="Chats" class="icon me-2">
+              <a class="dropdown-link" href="#">Chats</a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li class="dropdown-item d-flex align-items-center">
+              <img src="https://img.icons8.com/ios-glyphs/30/ffffff/exit.png" alt="Logout" class="icon me-2">
+              <a class="dropdown-link" @click="handleLogout" style="cursor: pointer;">Abmelden</a>
             </li>
           </ul>
         </div>
@@ -57,22 +61,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref, onMounted } from 'vue';
+import { defineComponent, computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import apiClient from '@/api';
-import type { RouteName } from '@/Config/NavbarConfig';
-import { navbarConfig } from '@/Config/NavbarConfig';
+import type { RouteName } from '@/config/NavbarConfig';
+import { navbarConfig } from '@/config/NavbarConfig';
 
 export default defineComponent({
   name: 'Navbar',
   setup() {
     const router = useRouter();
     const route = useRoute();
-    const userName = ref('John Doe'); // Beispiel für den Benutzernamen
-    const userProfileImage = 'https://img.icons8.com/?size=100&id=7819&format=png&color=000000';
-    const unreadCount = ref(0);
+    const userProfileImage = ref('https://img.icons8.com/ios-filled/50/ffffff/user.png');
+    const unreadCount = ref(3);
 
     const handleLogout = () => {
+      localStorage.removeItem('user'); // Entferne die Benutzerinformationen aus dem localStorage
       router.push('/login');
     };
 
@@ -84,37 +87,35 @@ export default defineComponent({
       return navbarConfig[route.name as RouteName]?.showProfileIcon || false;
     });
 
+    const profileIconUrl = computed(() => {
+      return 'https://img.icons8.com/ios-filled/50/ffffff/user-male-circle.png';
+    });
+
+    const userFullName = computed(() => {
+      return 'John Snow';
+    });
+
     const getLinkPath = (link: string) => {
       switch (link) {
         case 'TempJob-Angebote':
           return '/tempjob';
         case 'Job erstellen':
           return '/job-create';
+        case 'Admin-Dashboard':
+          return '/admin-dashboard';
         default:
           return '/';
       }
     };
-
-    const loadUnreadCount = async () => {
-      try {
-        const response = await apiClient.getUnreadNotificationsByUserId(1);
-        unreadCount.value = response.data.length;
-      } catch (error) {
-        console.error('Error loading unread notifications count', error);
-      }
-    };
-
-    onMounted(() => {
-      loadUnreadCount();
-    });
 
     return {
       handleLogout,
       navLinks,
       getLinkPath,
       showProfileIcon,
-      userName,
+      userFullName,
       userProfileImage,
+      profileIconUrl,
       unreadCount,
     };
   },
@@ -122,13 +123,36 @@ export default defineComponent({
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+  background-color: #343a40; /* Dunkleres Grau */
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #ecf0f1; /* Hellgrau */
+}
+
 .nav-link {
   margin-right: 15px;
-  color: #f8f9fa;
+  color: #ecf0f1; /* Hellgrau */
+  transition: color 0.3s;
 }
 
 .nav-link:hover {
-  color: #ef0b0b;
+  color: #adb5bd; /* Helleres Grau für Hover-Effekt */
+}
+
+.profile-icon {
+  width: 45px;
+  height: 45px;
+  object-fit: cover;
 }
 
 .dropdown-toggle::after {
@@ -138,15 +162,16 @@ export default defineComponent({
 .dropdown-menu {
   right: 0;
   left: auto;
-}
-
-.rounded-circle {
-  border-radius: 50%;
+  padding: 15px;
+  border-radius: 10px;
+  background-color: #495057; /* Mittelgrau */
 }
 
 .dropdown-header {
   display: flex;
   align-items: center;
+  color: #ecf0f1; /* Hellgrau */
+  font-size: 1rem;
 }
 
 .me-2 {
@@ -160,6 +185,29 @@ export default defineComponent({
 
 .dropdown-item-custom {
   padding-left: 10px;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  filter: invert(100%);
+}
+
+.dropdown-item {
+  color: #ecf0f1; /* Hellgrau */
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+  background-color: #6c757d; /* Helleres Grau für Hover-Effekt */
+  color: #ffffff; /* Weiß */
+}
+
+.dropdown-link {
+  color: inherit;
+  text-decoration: none;
 }
 
 .badge {
