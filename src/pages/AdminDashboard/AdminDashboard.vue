@@ -13,7 +13,12 @@
           <div v-if="showUserList">
             <input type="text" v-model="searchUserQuery" placeholder="Benutzer suchen..." class="search-bar">
             <ul class="list">
-              <li v-for="user in filteredUsers" :key="user.id" class="list-item">{{ user.firstName }} {{ user.lastName }}</li>
+              <li v-for="user in filteredUsers" :key="user.id" class="list-item">
+                {{ user.firstName }} {{ user.lastName }}
+                <div class="list-item-actions">
+                  <button @click="deleteUser(user.id)" class="btn btn-delete">Löschen</button>
+                </div>
+              </li>
             </ul>
           </div>
         </transition>
@@ -55,7 +60,7 @@
 </template>
 
 <script>
-import apiClient from '@/api';
+import apiClient from '@/api.js';
 
 export default {
   name: 'AdminDashboard',
@@ -127,8 +132,7 @@ export default {
       this.showApplicationList = !this.showApplicationList;
     },
     editJob(jobId) {
-      // Implementiere hier die Logik zur Bearbeitung des Jobs
-      console.log(`Bearbeite Job mit ID: ${jobId}`);
+      this.$router.push(`/job-edit/${jobId}`);
     },
     async deleteJob(jobId) {
       try {
@@ -138,8 +142,18 @@ export default {
       } catch (error) {
         console.error('Error deleting job', error);
       }
+    },
+    async deleteUser(usersId) {
+      try {
+        await apiClient.deleteUser(usersId);
+        this.users = this.users.filter(user => user.id !== usersId);
+        this.userCount = this.users.length;
+      } catch (error) {
+        console.error('Error deleting User', error);
+      }
     }
   },
+
   async mounted() {
     await this.fetchStats();
   }
@@ -147,8 +161,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
-
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f5f5f7;
