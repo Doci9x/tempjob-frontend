@@ -36,7 +36,7 @@ export default {
     jobDetails() {
       if (!this.job) return [];
       return [
-        { title: 'Beschreibung', value: this.job.description },
+        { title: 'Stellenbeschreibung', value: this.job.description },
         { title: 'E-Mail', value: this.job.email },
         { title: 'Telefon-Nummer', value: this.job.phoneNumber },
         { title: 'Ort', value: this.job.location },

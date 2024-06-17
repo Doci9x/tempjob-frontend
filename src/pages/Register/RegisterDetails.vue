@@ -153,13 +153,4 @@ h2 {
 .btn:hover {
   background-color: #0056b3;
 }
-
-.link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
 </style>
