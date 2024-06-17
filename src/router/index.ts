@@ -1,12 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TempjobView from '@/pages/TempjobView.vue';
-import RegisterView from '@/pages/RegisterView.vue';
-import RegisterDetails from '@/pages/RegisterDetails.vue';
-import LoginView from '@/pages/LoginView.vue';
-import JobCreate from '@/pages/JobCreate.vue';
-import JobDetails from '@/pages/JobDetails.vue';
-import WelcomeView from '@/pages/WelcomeView.vue';
-import AdminDashboard from '@/pages/AdminDashboard.vue';
+import TempjobView from '@/pages/TempjobList/TempjobView.vue';
+import Register from '@/pages/Register/Register.vue';
+import LoginView from '@/pages/Login/LoginView.vue';
+import JobCreate from '@/pages/Job/JobCreate.vue';
+import JobDetails from '@/pages/Job/JobDetails.vue';
+import WelcomeView from '@/pages/FirstWelcome/WelcomeView.vue';
+import AdminDashboard from '@/pages/AdminDashboard/AdminDashboard.vue';
+import JobEdit from '@/pages/AdminDashboard/JobEdit.vue';
+import UserEdit from '@/pages/AdminDashboard/UserEdit.vue'
 
 const routes = [
   {
@@ -22,12 +23,7 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: RegisterView
-  },
-  {
-    path: '/register-details',
-    name: 'RegisterDetails',
-    component: RegisterDetails
+    component: Register
   },
   {
     path: '/tempjob',
@@ -48,6 +44,16 @@ const routes = [
     path: '/admin-dashboard',
     name: 'AdminDashboard',
     component: AdminDashboard
+  },
+  {
+    path: '/job-edit/:id',
+    name: 'JobEdit',
+    component: JobEdit
+  },
+  {
+    path: '/user-edit/:id',
+    name: 'UserEdit',
+    component: UserEdit
   }
 ];
 
