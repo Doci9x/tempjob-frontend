@@ -1,7 +1,8 @@
 <template>
   <div class="restaurant-job-list">
     <h1>Verfügbare Job-Angebote!</h1>
-    <input type="text" v-model="searchText" placeholder="Suche nach Jobs..." class="search-bar">
+    <input type="text" v-model="searchText" placeholder="Jobtitel, Stichworte oder Unternehmen" class="search-bar">
+    <!-- <input type="text" v-model="searchText" placeholder="Stadt, Bundesland oder Postleitzahl" class="search-bar"> -->
     <div class="job-list">
       <div v-for="job in filteredJobs" :key="job.id" class="job-card">
         <div class="job-details">
