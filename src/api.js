@@ -33,10 +33,13 @@ export default {
     return apiClient.get(`/users/${id}`);
   },
   createUser(user) {
-    return apiClient.post('/users', user);
+    return apiClient.post('/users/register', user);
   },
   loginUser(user) {
     return apiClient.post('/users/login', user);
+  },
+  deleteUser(id) {
+    return apiClient.delete(`/users/${id}`);
   },
 
   // Application-APIs (hinzugefügt)
