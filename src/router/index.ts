@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import TempjobView from '@/pages/TempjobList/TempjobView.vue';
+import TempjobList from '@/components/TempjobList.vue';
 import Register from '@/pages/Register/Register.vue';
 import LoginView from '@/pages/Login/LoginView.vue';
 import JobCreate from '@/pages/Job/JobCreate.vue';
@@ -7,7 +7,7 @@ import JobDetails from '@/pages/Job/JobDetails.vue';
 import WelcomeView from '@/pages/FirstWelcome/WelcomeView.vue';
 import AdminDashboard from '@/pages/AdminDashboard/AdminDashboard.vue';
 import JobEdit from '@/pages/AdminDashboard/JobEdit.vue';
-import UserEdit from '@/pages/AdminDashboard/UserEdit.vue'
+import UserEdit from '@/pages/AdminDashboard/UserEdit.vue';
 
 const routes = [
   {
@@ -28,7 +28,7 @@ const routes = [
   {
     path: '/tempjob',
     name: 'TempJob',
-    component: TempjobView
+    component: TempjobList
   },
   {
     path: '/job-create',
