@@ -9,8 +9,8 @@
       <input type="email" v-model="email" placeholder="Email" class="form-control mb-2"/>
       <input type="text" v-model="phoneNumber" placeholder="Telefonnummer" class="form-control mb-2"/>
       <input type="text" v-model="location" placeholder="Standort" class="form-control mb-2"/>
-      <input type="date" v-model="startDate" class="form-control mb-2"/>
-      <input type="date" v-model="endDate" class="form-control mb-2"/>
+      <input type="date" v-model="startDate" placeholder="Startdatum" class="form-control mb-2"/>
+      <input type="date" v-model="endDate" placeholder="Enddatum" class="form-control mb-2"/>
       <button @click="handleSubmit" class="btn btn-primary" :disabled="isLoading">
         <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         <span v-if="isLoading">Lädt...</span>
@@ -41,7 +41,9 @@ export default {
   },
   methods: {
     handleSubmit() {
+      console.log("handleSubmit aufgerufen"); // Füge diesen Log hinzu
       if (this.name && this.description && this.email && this.phoneNumber && this.location && this.salary && this.startDate && this.endDate && this.requirements) {
+        console.log("Alle Felder sind ausgefüllt"); // Füge diesen Log hinzu
         this.isLoading = true;
         const newJob = {
           name: this.name,
@@ -64,6 +66,8 @@ export default {
             console.error("Fehler beim Hinzufügen des Jobs!", error);
             this.isLoading = false; // Stop loading on error
           });
+      } else {
+        console.log("Einige Felder sind leer"); // Füge diesen Log hinzu
       }
     },
     resetForm() {
