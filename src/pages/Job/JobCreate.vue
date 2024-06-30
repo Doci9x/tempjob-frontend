@@ -11,9 +11,12 @@
       <input type="text" v-model="location" placeholder="Standort" class="form-control mb-2"/>
       <input type="date" v-model="startDate" class="form-control mb-2"/>
       <input type="date" v-model="endDate" class="form-control mb-2"/>
-      <button @click="handleSubmit" class="btn btn-primary">Hinzufügen</button>
+      <button @click="handleSubmit" class="btn btn-primary" :disabled="isLoading">
+        <span v-if="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        <span v-if="isLoading">Lädt...</span>
+        <span v-else>Hinzufügen</span>
+      </button>
     </div>
-    <p :class="{'text-success': !isError, 'text-danger': isError}" v-if="feedbackMessage">{{ feedbackMessage }}</p>
   </div>
 </template>
 
@@ -33,13 +36,13 @@ export default {
       startDate: '',
       endDate: '',
       requirements: '',
-      feedbackMessage: '',
-      isError: false
+      isLoading: false
     };
   },
   methods: {
     handleSubmit() {
       if (this.name && this.description && this.email && this.phoneNumber && this.location && this.salary && this.startDate && this.endDate && this.requirements) {
+        this.isLoading = true;
         const newJob = {
           name: this.name,
           description: this.description,
@@ -54,24 +57,13 @@ export default {
         axios.post('https://webtech-project-backend.onrender.com/api/jobs', newJob)
           .then(response => {
             console.log('Response received:', response); // Log the entire response
-            this.feedbackMessage = 'Job erfolgreich hinzugefügt!';
-            this.isError = false;
             this.resetForm();
-            this.$router.push({ name: 'Tempjob' }); // Zurück zur Job-Liste
+            this.$router.push({ name: 'TempJob' }); // Zurück zur Job-Liste
           })
           .catch(error => {
             console.error("Fehler beim Hinzufügen des Jobs!", error);
-            if (error.response && error.response.data) {
-              console.error('Server response:', error.response.data); // Log server response
-              this.feedbackMessage = `Fehler: ${error.response.data.message || 'Unbekannter Fehler'}`;
-            } else {
-              this.feedbackMessage = 'Fehler beim Hinzufügen des Jobs';
-            }
-            this.isError = true;
+            this.isLoading = false; // Stop loading on error
           });
-      } else {
-        this.feedbackMessage = 'Bitte füllen Sie alle Felder aus.';
-        this.isError = true;
       }
     },
     resetForm() {
@@ -84,15 +76,13 @@ export default {
       this.startDate = '';
       this.endDate = '';
       this.requirements = '';
-      this.feedbackMessage = '';
-      this.isError = false;
+      this.isLoading = false;
     }
   }
 }
 </script>
 
 <style scoped>
-
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f5f5f7;
