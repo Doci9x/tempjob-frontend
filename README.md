@@ -1,49 +1,51 @@
-// alerts 
-// Navbar
-// Unterkomponente (Navbar, Liste, (Filter Funktion), Hinzufügen/Entfernen, FeedbackMessage)
+# webtech-tempjob-frontend
 
-# tempjob-frontend
+## Mitglieder
+- Duc Phan, 590057
+- Béla von Wangenheim, 589289
 
-This template should help get you started developing with Vue 3 in Vite.
+## Frontend Voraussetzungen
+- Node.js
+- npm
 
-## Recommended IDE Setup
+## Installation und Ausführung
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
+1. Repository klonen
+```bash
+git clone https://github.com/yourusername/tempjob-frontend.git
+cd tempjob-frontend
+```
+2. Abhängigkeiten installieren
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
+3. Frontend starten
 ```sh
 npm run dev
 ```
+### Zugriff auf die Anwendung
+- Produktionsumgebung: https://tempjob-frontend.onrender.com
+- Lokale Entwicklungsumgebung: http://localhost:5173
 
-### Type-Check, Compile and Minify for Production
+### Nutzung der Anwendung
+# Welcome Page # 
+Nach dem Starten des Backends und Frontends wird die Welcome Page angezeigt. Hier kann man sich registrieren oder anmelden.
 
-```sh
-npm run build
-```
+### Registrierung und Anmeldung
+1. Registrieren Sie sich mit einem neuen Benutzernamen und Passwort.
+2. Melden Sie sich mit den registrierten Anmeldedaten an.
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+#### Hauptseite
+- Nach der Anmeldung werden Sie zur Hauptseite weitergeleitet, wo alle Jobangebote angezeigt werden.
 
-```sh
-npm run test:unit
-```
+- Klicken Sie auf "Details", um genaue Informationen zu einem Job zu sehen.
+- Erstellen Sie ein neues Jobangebot, das automatisch der Liste hinzugefügt wird.
 
-### Lint with [ESLint](https://eslint.org/)
+### Admin Dashboard
+- Linke Seite: Alle Benutzer anzeigen und löschen.
+- Mittlere Seite: Jobs löschen und bearbeiten.
+- Rechte Seite: Bewerbungen anzeigen.
 
-```sh
-npm run lint
-```
+### Abmelden
+- Klicken Sie oben rechts in der Navbar auf das Profil-Icon und dann auf "Logout", um sich abzumelden.
